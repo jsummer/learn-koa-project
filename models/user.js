@@ -20,6 +20,10 @@ let UserSchema = new Schema({
     type: 'Number',
     required: true
   },
+  // roletype: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Role'
+  // },
   mobile: {
     type: 'String'
   },
