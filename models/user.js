@@ -16,9 +16,10 @@ let UserSchema = new Schema({
     type: 'String',
     default: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
   },
-  roletype: {
-    type: 'Number',
-    required: true
+  roleid: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Role'
   },
   // roletype: {
   //   type: Schema.Types.ObjectId,

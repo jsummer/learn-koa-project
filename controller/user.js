@@ -40,7 +40,7 @@ const login = async (ctx, next) => {
 const info = async (ctx, next) => {
   let token = ctx.request.header.token
   let info = (await User.findUserById(token)).toObject()
-  let role = (await Role.findRoleByType(info.roletype)).toObject()
+  let role = (await Role.findRoleById(info.roleid)).toObject()
   let res = {}
   res.data = {
     id: info._id,
@@ -88,9 +88,23 @@ const list = async (ctx, next) => {
   ctx.response.body = res
 }
 
+const create = async (ctx, next) => {
+  let data = ctx.request.body
+  console.log(data)
+  await User.create(data)
+  let res = {
+    meta: {}
+  }
+  res.meta.success = true
+  res.meta.message = '成功'
+  ctx.response.type = "application/json"
+  ctx.response.body = res
+}
+
 module.exports = {
   'GET /api/text': homepage,
   'POST /api/login': login,
   'GET /api/info': info,
-  'GET /api/user/list': list
+  'GET /api/user/list': list,
+  'POST /api/user/create': create
 }

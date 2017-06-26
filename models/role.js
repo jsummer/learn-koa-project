@@ -7,11 +7,6 @@ let RoleSchema = new Schema({
     unique: true,
     required: true
   },
-  type: {
-    type: 'Number',
-    unique: true,
-    required: true,
-  },
   routes: {
     type: ['String'],
     required: true
