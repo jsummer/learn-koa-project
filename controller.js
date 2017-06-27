@@ -13,6 +13,10 @@ function add_rule(router, rule) {
             let path = key.substring(5);
             router.post(path, rule[key]);
             console.log(`register URL mapping: POST ${path}`);
+        } else if (key.startsWith('DELETE ')) {
+            let path = key.substring(7)
+            router.delete(path, rule[key])
+            console.log(`register URL mapping: DELETE ${path}`)
         } else {
             console.log(`invalid URL: ${key}`);
         }

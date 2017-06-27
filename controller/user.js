@@ -40,7 +40,7 @@ const login = async (ctx, next) => {
 const info = async (ctx, next) => {
   let token = ctx.request.header.token
   let info = (await User.findUserById(token)).toObject()
-  let role = (await Role.findRoleById(info.roleid)).toObject()
+  let role = (await Role.findRoleById(info.role._id)).toObject()
   let res = {}
   res.data = {
     id: info._id,
@@ -88,6 +88,12 @@ const list = async (ctx, next) => {
   ctx.response.body = res
 }
 
+/**
+ * [创建用户]
+ * @param  {[type]}   ctx  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 const create = async (ctx, next) => {
   let data = ctx.request.body
   console.log(data)
@@ -101,10 +107,28 @@ const create = async (ctx, next) => {
   ctx.response.body = res
 }
 
+const del = async (ctx, next) => {
+  let id = ctx.params.id
+  let db = await User.remove(id)
+  let res = {
+    meta: {}
+  }
+  if (db.result.n > 0) {
+    res.meta.success = true
+    res.meta.message = '删除成功'
+  } else {
+    res.meta.success = false
+    res.meta.message = '删除失败，没有该记录'
+  }
+  ctx.response.type = 'application/json'
+  ctx.response.body = res
+}
+
 module.exports = {
   'GET /api/text': homepage,
   'POST /api/login': login,
   'GET /api/info': info,
   'GET /api/user/list': list,
-  'POST /api/user/create': create
+  'POST /api/user/create': create,
+  'DELETE /api/user/:id': del
 }
